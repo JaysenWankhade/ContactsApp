@@ -9,7 +9,7 @@ import CardActions from "@material-ui/core/CardActions";
 import { Button, IconButton, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import store from "../../redux/store";
-import { removeFromFav } from "../../redux/actions";
+import { addToFav, removeFromFav } from "../../redux/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +44,13 @@ export default function ContactDetails(props) {
     fetchData();
   }, [props.match.params.id]);
 
-  function handleClick(e) {
+  function handleAdd(e, contact) {
+    e.preventDefault();
+    store.dispatch(addToFav(contact));
+    alert(`${contact.first_name} added to favotites`);
+  }
+
+  function handleRemove(e) {
     e.preventDefault();
     store.dispatch(removeFromFav(contact.id));
     alert(`${contact.first_name} removed from favotites`);
@@ -75,13 +81,23 @@ export default function ContactDetails(props) {
         <CardActions>
           <Button
             variant="outlined"
-            color="secondary"
-            size="large"
+            color="primary"
+            size="medium"
             className={classes.button}
             startIcon={<FavoriteIcon />}
-            onClick={handleClick}
+            onClick={(e) => handleAdd(e, contact)}
           >
-            Remove from favorites
+            Add
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            size="medium"
+            className={classes.button}
+            startIcon={<FavoriteIcon />}
+            onClick={handleRemove}
+          >
+            Remove
           </Button>
         </CardActions>
       </Card>

@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
 import getAllContacts from "../../services/ContactService";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import {
-  Button,
-  CardActions,
-  Grid,
-  IconButton,
-  Paper,
-} from "@material-ui/core";
 import { Link } from "react-router-dom";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import store from "../../redux/store";
-import { addToFav } from "../../redux/actions";
 
 export default function ContactsMaster(props) {
   const [contactsList, setContactsList] = useState([]);
@@ -29,12 +19,6 @@ export default function ContactsMaster(props) {
     }
     fetchData();
   }, []);
-
-  function handleClick(e, contact) {
-    e.preventDefault();
-    store.dispatch(addToFav(contact));
-    alert(`${contact.first_name} added to favotites`);
-  }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +46,7 @@ export default function ContactsMaster(props) {
           padding: "10px",
         }}
       >
+        {"   "}
         <Link to="/Favorites">Favorites</Link>
       </div>
       <div
@@ -90,18 +75,6 @@ export default function ContactsMaster(props) {
                       title={contact.first_name + " " + contact.last_name}
                       subheader={contact.email}
                     />
-                    <CardActions>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="large"
-                        className={classes.button}
-                        startIcon={<FavoriteIcon />}
-                        onClick={(e) => handleClick(e, contact)}
-                      >
-                        Add to favorites
-                      </Button>
-                    </CardActions>
                   </Card>
                 </Link>
               </li>
