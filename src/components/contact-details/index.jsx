@@ -6,7 +6,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import { IconButton, Typography } from "@material-ui/core";
+import { Button, IconButton, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import store from "../../redux/store";
 import { removeFromFav } from "../../redux/actions";
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {},
   cardheader: {
     alignContent: "center",
+  },
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -44,6 +47,7 @@ export default function ContactDetails(props) {
   function handleClick(e) {
     e.preventDefault();
     store.dispatch(removeFromFav(contact.id));
+    alert(`${contact.first_name} removed from favotites`);
   }
 
   return (
@@ -69,9 +73,16 @@ export default function ContactDetails(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <IconButton aria-label="add to favorites" onClick={handleClick}>
-            <FavoriteIcon />
-          </IconButton>
+          <Button
+            variant="outlined"
+            color="secondary"
+            size="large"
+            className={classes.button}
+            startIcon={<FavoriteIcon />}
+            onClick={handleClick}
+          >
+            Remove from favorites
+          </Button>
         </CardActions>
       </Card>
     </div>

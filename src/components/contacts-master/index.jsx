@@ -5,7 +5,13 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import { CardActions, Grid, IconButton, Paper } from "@material-ui/core";
+import {
+  Button,
+  CardActions,
+  Grid,
+  IconButton,
+  Paper,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import store from "../../redux/store";
@@ -27,6 +33,7 @@ export default function ContactsMaster(props) {
   function handleClick(e, contact) {
     e.preventDefault();
     store.dispatch(addToFav(contact));
+    alert(`${contact.first_name} added to favotites`);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -83,12 +90,18 @@ export default function ContactsMaster(props) {
                       title={contact.first_name + " " + contact.last_name}
                       subheader={contact.email}
                     />
-                    <IconButton
-                      aria-label="add to favorites"
-                      onClick={(e) => handleClick(e, contact)}
-                    >
-                      <FavoriteIcon />
-                    </IconButton>
+                    <CardActions>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="large"
+                        className={classes.button}
+                        startIcon={<FavoriteIcon />}
+                        onClick={(e) => handleClick(e, contact)}
+                      >
+                        Add to favorites
+                      </Button>
+                    </CardActions>
                   </Card>
                 </Link>
               </li>

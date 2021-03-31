@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -43,6 +43,25 @@ function Favorites(props) {
           flexDirection: "row",
         }}
       >
+        {contactsList.length === 0 ? (
+          <>
+            <div
+              sstyle={{
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="body1" color="textSecondary" component="p">
+                {" "}
+                You have not added anyone to your favorites yet{" "}
+              </Typography>
+              <p>
+                <Link to="/">View Contacts</Link>
+              </p>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
         {
           <ul style={{ "list-style-type": "none" }}>
             {contactsList.map((contact) => {
