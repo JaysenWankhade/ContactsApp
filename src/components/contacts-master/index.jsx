@@ -5,8 +5,11 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import { Grid, Paper } from "@material-ui/core";
+import { CardActions, Grid, IconButton, Paper } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import store from "../../redux/store";
+import { addToFav } from "../../redux/actions";
 
 export default function ContactsMaster(props) {
   const [contactsList, setContactsList] = useState([]);
@@ -20,6 +23,11 @@ export default function ContactsMaster(props) {
     }
     fetchData();
   }, []);
+
+  function handleClick(e, contact) {
+    e.preventDefault();
+    store.dispatch(addToFav(contact));
+  }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +51,13 @@ export default function ContactsMaster(props) {
   return (
     <>
       <div
+        style={{
+          padding: "10px",
+        }}
+      >
+        <Link to="/Favorites">Favorites</Link>
+      </div>
+      <div
         className={classes.container}
         style={{
           display: "flex",
@@ -50,9 +65,6 @@ export default function ContactsMaster(props) {
           flexDirection: "row",
         }}
       >
-        {/*<Grid container spacing={3}>
-          <Grid item xs={12}>
-    <Paper className={classes.paper}>*/}
         <ul style={{ "list-style-type": "none" }}>
           {contactsList.map((contact) => {
             return (
@@ -71,15 +83,18 @@ export default function ContactsMaster(props) {
                       title={contact.first_name + " " + contact.last_name}
                       subheader={contact.email}
                     />
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={(e) => handleClick(e, contact)}
+                    >
+                      <FavoriteIcon />
+                    </IconButton>
                   </Card>
                 </Link>
               </li>
             );
           })}
         </ul>
-        {/*</div></Paper>
-          </Grid>
-        </Grid>*/}
       </div>
     </>
   );

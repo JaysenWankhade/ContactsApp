@@ -8,6 +8,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import { IconButton, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import store from "../../redux/store";
+import { removeFromFav } from "../../redux/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContactDetails(props) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const [contact, setContact] = useState({});
 
@@ -43,6 +40,11 @@ export default function ContactDetails(props) {
     }
     fetchData();
   }, [props.match.params.id]);
+
+  function handleClick(e) {
+    e.preventDefault();
+    store.dispatch(removeFromFav(contact.id));
+  }
 
   return (
     <div
@@ -67,7 +69,7 @@ export default function ContactDetails(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" onClick={handleClick}>
             <FavoriteIcon />
           </IconButton>
         </CardActions>
