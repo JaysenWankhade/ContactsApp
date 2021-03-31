@@ -6,15 +6,18 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
+import { FormControl, InputLabel, Select } from "@material-ui/core";
+import _ from "lodash";
 
 export default function ContactsMaster(props) {
   const [contactsList, setContactsList] = useState([]);
+  const [sortOrder, setSortOrder] = useState("AZ");
 
   useEffect(() => {
     async function fetchData() {
       const result = await getAllContacts();
       console.log(result);
-      setContactsList(result.data);
+      setContactsList(_.sortBy(result.data, "first_name"));
       console.log(contactsList);
     }
     fetchData();
@@ -38,6 +41,16 @@ export default function ContactsMaster(props) {
     },
   }));
 
+  function handleChange(e) {
+    setSortOrder(e.target.value);
+    if (e.target.value === "AZ") {
+      setContactsList(_.sortBy(contactsList, "first_name"));
+    }
+    if (e.target.value === "ZA") {
+      setContactsList(_.sortBy(contactsList, "first_name").reverse());
+    }
+  }
+
   const classes = useStyles();
   return (
     <>
@@ -46,6 +59,14 @@ export default function ContactsMaster(props) {
           padding: "10px",
         }}
       >
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="age-native-simple">Sort</InputLabel>
+          <Select native value={sortOrder} onChange={handleChange}>
+            <option aria-label="None" value="" />
+            <option value="AZ">A - Z</option>
+            <option value="ZA">Z - A</option>
+          </Select>
+        </FormControl>
         {"   "}
         <Link to="/Favorites">Favorites</Link>
       </div>
